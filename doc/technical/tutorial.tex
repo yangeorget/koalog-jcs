@@ -1,0 +1,879 @@
+%----------------------------------------------------------------------------
+\documentclass[a4paper]{report}
+\usepackage{times}
+
+%----------------------------------------------------------------------------
+\input{../../../util/tex/style}
+\input{../../../util/tex/products}
+\input{../../../util/doc/cmdline/options}
+\input{../version}
+
+%----------------------------------------------------------------------------
+\def\setupjar{jcs-setup.jar}
+\def\javadoc{{\jcs} API documentation}
+\def\directory{jcs}
+\def\product{\jcs}
+
+%----------------------------------------------------------------------------
+\begin{document}
+\title{{\jcs} (v\version) tutorial}
+\author{Copyright 2002-2006 \koalog}
+\date{}
+\maketitle
+
+\begin{center}
+\begin{minipage}{9cm}
+\begin{small}
+{\sunlegal}\\
+
+{\apachelegal}\\
+\end{small}
+\end{minipage}
+\end{center}
+
+\tableofcontents
+
+%----------------------------------------------------------------------------
+\chapter{About this guide}
+This chapter gives various information about this guide.
+
+%----------------------------------------------------------------------------
+\section{Who should use this guide}
+This guide is intended for programmers who develop applications using {\jcs}. 
+In order to benefit from this guide, you should have a basic knowledge of the 
+{\java} programming language. No experience with any other {\koalog} 
+product is required.
+ 
+%----------------------------------------------------------------------------
+\section{Contents of this guide}
+This guide is organized as follows:
+\begin{itemize}
+\item Chapter \ref{chap:introduction} 
+introduces basic concepts about combinatorial problems and constraint programming. 
+Then, it explains a couple of technical choices concerning {\jcs}.
+\item Chapter \ref{chap:using} explains how to install and use {\jcs}.
+It also contains a very short tutorial based on the study of a simple example.
+\item Chapter \ref{chap:domains-variables} introduces the concepts of domain and variable.
+\item Chapter \ref{chap:constraints-problems} presents the concept of
+  constraint and explain how constraints can be grouped into problems.
+\item Chapter \ref{chap:solvers-heuristics} goes into the details of solvers and 
+explain how they use heuristics to solve the problems.
+\item Chapter \ref{chap:optimizers} introduces the generic concept of optimizer.
+\end{itemize}
+
+%----------------------------------------------------------------------------
+\section{How to use this guide}
+If you are already familiar with constraint programming, then you can directly jump 
+to chapter \ref{chap:using}, otherwise the reading of 
+chapter \ref{chap:introduction} is necessary. 
+In both cases, for a first reading, it is recommended to read the chapters 
+in order.
+
+%----------------------------------------------------------------------------
+\section{Conventions}
+{\java} code examples will be displayed as follows:
+\begin{verbatim}
+public class HelloWorld {
+   public static void main(String[] args) {
+      System.out.println("Hello world");
+   }
+}
+\end{verbatim}
+
+%----------------------------------------------------------------------------
+\section{Related documents}
+Other information can be found in:
+\begin{itemize}
+\item ``An overview of {\jcs}'',
+\item ``The {\javadoc}''.
+\end{itemize}
+
+%----------------------------------------------------------------------------
+\chapter{Introduction}
+\label{chap:introduction}
+This chapter introduces basic concepts about combinatorial problems 
+and constraint programming. 
+Then, it explains a couple of technical choices concerning {\jcs}.
+
+%----------------------------------------------------------------------------
+\section{Combinatorial problems}
+A combinatorial problem is defined by a set of 
+finite domain\footnote{Usually these variables are integers and are bound 
+by a minimal and a maximal value.}  
+variables and 
+a set of constraints (or relations) over these variables.
+
+% MAT: ajout de paragraphe
+Thus, solving such a problem means finding a value for each of the problem
+variables, so that all problem constraints are satisfied. But finding a
+solution to the problem is not always enough, and it is for instance often
+important to find the best solution, given that the possible solutions to the
+problem can be compared to each other.
+
+We can therefore distinguish two categories of combinatorial problems:
+\begin{itemize}
+\item satisfaction problems;
+\item optimization problems.
+\end{itemize}
+In both cases, a solution will always correspond to an instantiation of the
+problem variables.
+
+\subsection{Satisfaction problems}
+A satisfaction problem is a problem where one searches for:
+\begin{itemize}
+\item a solution\footnote{In some cases, the set of all solutions.} or 
+\item a proof that there is no solution.
+\end{itemize}
+Real life examples include, among others:
+\begin{itemize}
+\item resource allocation;
+\item time-tabling;
+\item configuration (when one tries to find a feasible configuration).
+\end{itemize}
+
+\subsection{Optimization problems}
+An optimization problem is a problem where one searches for an optimal
+solution. Optimal means here that one of the problem variables takes an
+optimal, minimal or maximal, value.
+
+Real life examples include, among others:
+\begin{itemize}
+\item scheduling (when one tries to minimize the total duration of a project),
+\item configuration (when one tries to find a feasible configuration of
+  minimal price).
+\end{itemize}
+
+%----------------------------------------------------------------------------
+\section{Constraint Programming}
+The technique of Constraint Programming was introduced in the late eighties.
+
+\subsection{Overview}
+Instead of writing complex, specific and error-prone algorithms 
+in a low-level language, the idea is to use a high-level language that will
+provide, at least, two layers:
+\begin{itemize}
+\item a modelling layer, facilitating the description of the problem;
+\item a solver or control layer, responsible for the resolution of the problem.
+\end{itemize}
+
+\subsection{The three layers of {\jcs}}
+In addition to the modelling and control layers, {\jcs} offers a third layer,
+the algorithms layer.
+Both the solver and the algorithms layers can easily be customized:
+\begin{itemize}
+\item customization of the solver layer (see chapter \ref{chap:solvers-heuristics}): 
+the idea is to control the way the solver searches for a solution, 
+this customization can consist in changing the heuristics used by the solver,
+\item customization of the algorithm layer (see chapter \ref{chap:constraints-problems}):
+the idea is to change the filtering algorithms used in the constraints, 
+this customization can consist in designing a new constraint. 
+\end{itemize}
+In both cases, these customizations can change:
+\begin{itemize}
+\item the order in which the solutions of the problem are found 
+(this is easy to understand for the solver layer, 
+this is also the case for the algorithm layer because 
+filtering algorithm affect the way the domains are refined and 
+heuristics may depend on the size of the domains),
+\item the time needed for finding them,
+\item in the case of optimization, the optimal solution 
+(if there is more than one optimal solution).
+\end{itemize}
+But they will not change:
+\begin{itemize}
+\item the set of all solutions,
+\item in the case of optimization, the optimal value.
+\end{itemize}
+ 
+%----------------------------------------------------------------------------
+\section{What is {\jcs}?}
+{\jcs} is a {\java} library for Constraint Programming. 
+The choice of a library rather than a language (such as Prolog) 
+makes the integration of {\jcs} programs into other applications seamless.
+
+The choice of {\java} programming language makes {\jcs} platform-independent.
+{\jcs} also benefits from well-known standards in the growing 
+{\java} community:
+\begin{itemize}
+\item {\log4j} for its logging system;
+\item {\junit} for its unit tests.      
+\end{itemize}
+
+%----------------------------------------------------------------------------
+\chapter{Using {\jcs}}
+\label{chap:using}
+This chapter explains how to install and use {\jcs}. 
+It also contains a very short tutorial based on the study of a simple example.
+
+%----------------------------------------------------------------------------
+\section{Installation and usage}
+This section explains how to install and use {\jcs}.
+
+\subsection{Installing {\jcs}}
+\label{subsec:install}
+\input{../../../installer/doc/technical/userguide}
+  
+\subsection{Using {\jcs}}
+This sub-section explains how to use {\jcs}.
+
+\subsubsection{License}
+\input{../../../license/doc/technical/userguide}
+
+The installation has created a {\tt bin} directory 
+which contains a script {\tt kcs} that you can use to test the version
+of {\jcs} you are running.
+
+\helpusage{kcs}
+
+\versionusage{\jcs}{kcs}
+
+\subsubsection{Classpath}
+The installation has created a {\tt lib} directory which contains:
+\begin{itemize}
+\item the {\jcs} jar file,
+\item additional jar files corresponding to {\java} librairies used by {\jcs}.
+\end{itemize}
+
+To compile and run any {\java} program using {\jcs}, 
+do not forget to include all the jar files, contained in directory {\tt lib}, 
+in your classpath.
+
+\subsection{{\log4j} configuration}
+{\jcs} uses {\log4j} for its logging system.
+{\log4j} can be configured\footnote{It also offers a default configuration 
+but we do not recommended it since you surely want to keep control of what is logged by your program.}
+from a properties file or from an XML file.
+
+As an example, 
+you can configure {\log4j} with the properties file {\tt log4j.properties} given in figure \ref{tab:code-log4j}, 
+by:
+\begin{verbatim}
+import org.apache.log4j.PropertyConfigurator;
+
+public class A {
+   public static void main(String[] args) {
+        PropertyConfigurator.configure("log4j.properties");
+        % start using Koalog Constraint Solver below
+   }
+}
+\end{verbatim}
+\begin{figure}[htb]
+\begin{centeredframe}
+\begin{verbatim}
+log4j.rootCategory=INFO, A1
+
+log4j.appender.A1=org.apache.log4j.ConsoleAppender
+log4j.appender.A1.layout=org.apache.log4j.PatternLayout
+log4j.appender.A1.layout.ConversionPattern=%m%n
+\end{verbatim}
+\end{centeredframe}
+\caption{A simple {\log4j} configuration file\label{tab:code-log4j}}
+\end{figure}
+
+Refer to {\log4j} documentation for further details.
+ 
+%----------------------------------------------------------------------------
+\section{Quick tutorial}
+\label{sec:send}
+In this section, we present the complete study of 
+the famous crypto-arithmetic puzzle $SEND+MORE=MONEY$.
+The problem consists in finding, for each of the letters $\{S,E,N,D,M,O,R,Y\}$ a value between $0$ and $9$ such that:
+\begin{itemize}
+\item $SEND$, $MORE$ and $MONEY$ represent numbers, and thus should not start
+  with a $0$;
+\item $S$,$E$,$N$,$D$,$M$,$O$,$R$,$Y$ are all different,
+\item the sum of the numbers $SEND$ and $MORE$ is $MONEY$.
+\end{itemize}
+
+You probably have already noticed that this problem is a satisfaction problem.
+Let us go a bit further and demonstrate that this problem, even if it can be
+described shortly, is not straightforward. Each variable can take ten values,
+from $0$ to $9$, and there are $8$ variables. The search space size is
+therefore $10^8$. A custom algorithm would probably try to enumerate the
+100\ 000\ 000 instantiations in order to find the unique solution.
+
+Let us explain how we can easily solve the problem using {\jcs}.
+The first thing to do is to declare and define a problem:
+\begin{verbatim}
+Problem pb = new BaseProblem();
+\end{verbatim}
+Then one has to declare and define the problem variables:
+\begin{verbatim}
+IntegerVariable s = new IntegerVariable("s",1,9);
+IntegerVariable e = new IntegerVariable("e",0,9);
+IntegerVariable n = new IntegerVariable("n",0,9);
+IntegerVariable d = new IntegerVariable("d",0,9);
+IntegerVariable m = new IntegerVariable("m",1,9);
+IntegerVariable o = new IntegerVariable("o",0,9);
+IntegerVariable r = new IntegerVariable("r",0,9);
+IntegerVariable y = new IntegerVariable("y",0,9);
+\end{verbatim}
+Let us consider the construction of variable {\tt s} with
+{\tt new IntegerVariable("s",1,9);}. The parameter {\tt "s"} is the {\jcs}
+name for the
+{\java} variable {{\tt s} and will be used by the solver for pretty-printing. 
+The parameters {\tt 1} and {\tt 9} define the 
+range\footnote{We know that $S \neq 0$ because it starts the word $SEND$, 
+for the same reason $M \neq 0$.}
+of values for the variable {\tt s}.  
+Then, we have to assign these variables to the problem:
+\begin{verbatim}
+IntegerVariable[] vars = {s,e,n,d,m,o,r,y};
+pb.setVariables(vars);
+\end{verbatim}
+The problem variables array will be used by the solver:
+\begin{itemize}
+\item to search for solutions;
+\item to display the solutions found.
+\end{itemize}
+Now, we have to define the constraints on the variables.
+We know that the variables have to be different:
+\begin{verbatim}
+pb.add(new AllDifferent(vars));
+\end{verbatim}
+Let us go back to the equation $SEND+MORE=MONEY$ before defining the last
+constraint.
+This equation translates into 
+$1000S + 100E + 10N + D + 1000M +100O + 10R + E = 10000M +1000O +100N +10E + Y$, 
+or equivalently $1000S + 91E - 90N + D - 9000M - 900O + 10R -Y = 0$.
+This can be expressed in {\jcs} by:
+\begin{verbatim}
+pb.add(new ConstantWeightedSum(new int[] {1000,
+                                          91,
+                                          -90,
+                                          1,
+                                          -9000,
+                                          -900,
+                                          10,
+                                          -1}, 
+                               vars,
+                               0));
+\end{verbatim}
+We have now completely modeled the problem using the first layer of {\jcs}. 
+Let us use the second layer to declare and define a solver:
+\begin{verbatim}
+Solver solver = new DefaultSplitSolver(pb);
+\end{verbatim}
+As we said before, there is only one solution, 
+thus we are going to search for the two first solutions and see what happens:
+\begin{verbatim}
+solver.solve(2);
+\end{verbatim}
+The complete source code for the problem $SEND+MORE=MONEY$ is rather short and
+is given in figure \ref{tab:code-send}.
+\begin{figure}[htb]
+\begin{centeredframe}
+\begin{verbatim}
+Problem pb = new BaseProblem();
+IntegerVariable s = new IntegerVariable("s",1,9);
+IntegerVariable e = new IntegerVariable("e",0,9);
+IntegerVariable n = new IntegerVariable("n",0,9);
+IntegerVariable d = new IntegerVariable("d",0,9);
+IntegerVariable m = new IntegerVariable("m",1,9);
+IntegerVariable o = new IntegerVariable("o",0,9);
+IntegerVariable r = new IntegerVariable("r",0,9);
+IntegerVariable y = new IntegerVariable("y",0,9);
+IntegerVariable[] vars = {s,e,n,d,m,o,r,y};
+pb.setVariables(vars);
+pb.add(new AllDifferent(vars));
+pb.add(new ConstantWeightedSum(new int[] {1000,
+                                          91,
+                                          -90,
+                                          1,
+                                          -9000,
+                                          -900,
+                                          10,
+                                          -1}, 
+                     vars,
+                     0));
+Solver solver = new DefaultSplitSolver(pb);
+solver.solve(2);
+\end{verbatim}
+\end{centeredframe}
+\caption{Problem $SEND+MORE=MONEY$ source code\label{tab:code-send}}
+\end{figure}
+
+The output\footnote{It can be fully customized.} of {\jcs} is:
+\begin{verbatim}
+solution found in 3 ms
+1 backtrack(s), 51 filter(s), max depth 1
+no more solution
+solved in 7 ms
+s e n d m o r y
+9 5 6 7 1 0 8 2
+3 backtracks in total, 69 filters in total, max depth 1
+\end{verbatim}
+This means:
+\begin{itemize}
+\item the first solution was found in $3 ms$ and 1 backtrack, 51 constraints were filtered, the maximal depth in the search tree was 1;
+\item no other solution can be found;
+\item the proof of this took $7 ms$ and 3 backtracks, 69 constraints were filtered, the maximal depth in the search tree was 1;
+\item the unique solution is:
+%$$\{D=7 \wedge E=5 \wedge M=1 \wedge N=6 \wedge O=0 \wedge R=8 \wedge S=9
+%\wedge Y=2\}$$
+%MAT: je trouve plus lisible:
+$$\{D=7, E=5, M=1, N=6, O=0, R=8, S=9, Y=2\}$$
+\end{itemize}
+
+%----------------------------------------------------------------------------
+\chapter{Domains and variables}
+\label{chap:domains-variables}
+This chapter introduces the concepts of domains and 
+variables.
+
+%----------------------------------------------------------------------------
+\section{Domains}
+A domain defines the set of possible values for a variable 
+(respectively represented in {\jcs} by the {\tt Domain} and the {\tt Variable} interfaces).
+
+Since we are interested here in solving combinatorial problems, we will focus, in the rest
+of this tutorial, on integer domains and integer variables (these are respectively
+represented in {\jcs} by 
+the {\tt IntegerDomain} and the {\tt IntegerVariable} classes). 
+
+Note that {\jcs} can also handle set domains and set variables (these are respectively
+represented in {\jcs} by 
+the {\tt SetDomain} and the {\tt SetVariable} classes) but it is out of the scope of this document.
+Refer to the {\javadoc} for more informations on set domains, set variables and set constraints.
+
+During the search for a solution by a solver, each integer domain is refined
+until the corresponding variable is instantiated.
+
+\subsection{Intervals}
+You can declare and define a domain by:
+\begin{verbatim}
+IntegerDomain d = new MinMaxDomain(1, 5);
+\end{verbatim}
+This domain contains the integers from $1$ to $5$. 
+It is represented internally as an interval 
+which minimal value is $1$ and which maximal value is $5$.
+
+\subsection{Sparse domains}
+Alternatively, you could write:
+\begin{verbatim}
+IntegerDomain d = new SparseDomain(1, 5);
+\end{verbatim}
+The set of possible values is the same, but the internal representation
+differs: in this case, it is a set containing the elements $\{ 1, 2, 3, 4, 5
+\}$. We will see in chapter \ref{chap:constraints-problems}
+how the algorithm layer can, in some cases, take advantage of this second definition.
+
+Refer to the {\javadoc} for other ways of creating domains.
+
+%----------------------------------------------------------------------------
+\section{Variables}
+A variable has a name and a domain\footnote{This domain is likely to change
+  during the search for a solution, so domains should not
+  be shared among variables.}.
+You can declare and define a variable by:
+\begin{verbatim}
+Variable v = new IntegerVariable("a name", domain);
+\end{verbatim}
+In section \ref{sec:send}, we have already seen an interesting shortcut
+of the form:
+\begin{verbatim}
+Variable v = new IntegerVariable("a name", 1, 5);
+\end{verbatim}
+This is strictly equivalent to:
+\begin{verbatim}
+Variable v = new IntegerVariable("a name", 
+                                 new MinMaxDomain(1, 5));
+\end{verbatim}
+Refer to the {\javadoc} for other ways of creating variables.
+
+%----------------------------------------------------------------------------
+\chapter{Constraints and problems}
+\label{chap:constraints-problems}
+This chapter presents the concept of constraints and 
+explains how constraints can be grouped into problems.
+
+%----------------------------------------------------------------------------
+\section{Constraints}
+Constraints are one of the pillars of {\jcs}.
+They correspond to mathematical relations over variables,
+and encapsulate filtering algorithms (the algorithm layer)
+that are applied during the search for a solution.
+
+\subsection{Pre-defined constraints}
+{\jcs} comes with a large collection of constraints such as:
+\begin{itemize}
+\item arithmetic constraints ($x=y+z$, $x \leq y$, $x=|y|$, etc),
+\item boolean constraints ($x=y \wedge z$, $x = \neg y$, etc),
+\item meta-constraints ($b <=> (x=c)$, $b <=> (x \leq y)$, etc),
+\item global constraints ($x = [y_1, \ldots, y_n]_i$, $\wedge_{i \neq j} x_i \neq x_j$, etc).
+\end{itemize}
+Refer to the {\javadoc} for the complete list of pre-defined constraints.
+
+\subsection{A constraint from the inside}
+{\jcs} contains a lot of pre-defined constraints and 
+their corresponding filtering algorithms (the algorithm layer).
+However, one may wish to write his own constraints:
+\begin{itemize}
+\item either because a needed constraint is not provided by {\jcs},
+\item or because a new filtering algorithm has been discovered\footnote{This
+    is, for example, the case for the constraint of {\tt AllDifferent}
+    (corresponding to the relation $\wedge_{i \neq j} x_i \neq x_j$) for which
+    the search of new filtering algorithms is an active field of research.}
+  for an existing constraint.
+\end{itemize}
+
+Let us consider the relation $x \leq y$ and write the 
+corresponding constraint {\tt Leq} (less or equal). This relation is 
+binary\footnote{Note that {\jcs} comes with the following pre-defined classes:
+\begin{itemize}
+\item {\tt UnaryConstraint} (constraints constraining a single variable),
+\item {\tt BinaryConstraint} (constraints constraining two variables),
+\item {\tt TernaryConstraint} (constraints constraining three variables),
+\item {\tt BaseConstraint} (constraints constraining $n$ variables).
+\end{itemize}}, which means that it involves two variables:
+\begin{verbatim}  
+public class Leq extends BinaryConstraint {
+\end{verbatim}
+Let us give a name to this constraint:
+\begin{verbatim} 
+   public Leq(IntegerVariable x, IntegerVariable y) {
+      super(x, y);
+      name = "x<=y";
+   }
+\end{verbatim}
+There are only two methods that have to be implemented: 
+\begin{itemize}
+\item the {\tt filter} method,
+\item the {\tt updateDependencies} method.
+\end{itemize}
+
+\subsubsection{Method {\tt filter}}
+We can access the constraint variables by:
+\begin{verbatim}
+      IntegerVariable x = (IntegerVariable) variables[0];
+      IntegerVariable y = (IntegerVariable) variables[1];
+\end{verbatim}
+Now comes the filtering algorithm, 
+which generally consists in a sequence of min and max adjustments.
+
+The {\tt IntegerVariable} interface provides two main methods, {\tt adjustMin} and
+{\tt adjustMax}, that are responsible for applying these adjustments. Note that
+simple accessors such as {\tt setMin} and {\tt setMax} should not be used:
+{\jcs} solvers require any modification of the variables domains to be
+backtrackable, or, in other terms, undoable. Thus, {\tt adjustMin} and
+{\tt adjustMax} not only modify the domain boundaries, as {\tt setMin} and
+{\tt setMax} would, but also record the modification so that a {\jcs} solver
+can later undo it. That is what the {\tt ChoicePointStack} class is used for,
+but its description is out of the scope of this document.
+
+In the case of the {\tt Leq} constraint, the filtering algorithm reduces to:
+\begin{verbatim}
+      x.adjustMax(cp, cs, this, y.getMax());
+      y.adjustMin(cp, cs, this, x.getMin());
+\end{verbatim}
+It means that:
+\begin{itemize}
+\item the new maximal value of $x$ is less or equal than the previous maximal
+  value of $y$ and
+\item the new minimal value of $y$ is greater or equal than the previous
+  minimal value of $x$.
+% MAT: vérifie bien que je ne me suis pas trompé. Avant, il y avait:
+% \item the new minimal value of $y$ is less or equal than the previous
+% minimal value of $x$.
+\end{itemize}
+Refer to the {\javadoc} for information on the additional parameters of the {\tt adjustXXX} methods.
+
+\subsubsection{Method {\tt updateDepencencies}}
+This method describes the dependencies of the constraint on its variables.
+It indicates to the solver when to filter the constraint 
+(more precisely, call its {\tt filter} method) 
+depending on events 
+(more precisely, variable modifications).
+\begin{verbatim}
+   public void updateDependencies() {
+      IntegerVariable x = (IntegerVariable)variables[0];
+      IntegerVariable y = (IntegerVariable)variables[1];
+      x.addMinConstraint(this);
+      y.addMaxConstraint(this);
+   }
+\end{verbatim}
+Here, we state that the constraint should be filtered whenever 
+the minimal value of variable {\tt x} or 
+the maximal value of variable {\tt y} changes.
+
+\subsubsection{Complete code}}
+The complete code of the $x \leq y$ constraint is eventually rather short and is given in
+figure \ref{tab:code-leq}.
+\begin{figure}[htb]
+\begin{centeredframe}
+\begin{verbatim}
+public class Leq extends BinaryConstraint {
+   public Leq(IntegerVariable x, IntegerVariable y) {
+      super(x, y);
+      name = "x<=y";
+   }
+   public void updateDependencies() {
+      IntegerVariable x = (IntegerVariable)variables[0];
+      IntegerVariable y = (IntegerVariable)variables[1];
+      x.addMinConstraint(this);
+      y.addMaxConstraint(this);
+   }
+   public void filter(ChoicePointStack cp, 
+                      ConstraintScheduler cs) 
+      throws ConstraintInconsistencyException {
+      IntegerVariable x = (IntegerVariable)variables[0];
+      IntegerVariable y = (IntegerVariable)variables[1];
+      x.adjustMax(cp, cs, this, y.getMax());
+      y.adjustMin(cp, cs, this, x.getMin());
+   }
+}
+\end{verbatim}
+\end{centeredframe}
+\caption{Constraint $x \leq y$ source code\label{tab:code-leq}}
+\end{figure}
+Note that in this example, we have only used the bounds of the variables
+domains. It is actually a very common case and justifies why there is an
+implementation of domains with intervals. In more complex filtering
+algorithms, one can take advantage of the explicit set of possible values, in
+which case the domains have to be defined as {\tt SparseDomain}s.
+
+%----------------------------------------------------------------------------
+\section{Problems}
+A problem is defined by 
+a collection of constraints and a collection of constrained variables. 
+
+\subsection{Basic use of problems}
+Usually one defines a single
+problem which is passed to the solver (as it was the case in section 
+\ref{sec:send}):
+\begin{verbatim}
+Solver solver = new DefaultSplitSolver(pb);
+\end{verbatim}
+
+\subsection{Nested problems}
+Let us consider the following problem:
+\begin{verbatim}
+public class Dist extends BaseProblem {
+   public Dist(IntegerVariable d, 
+               IntegerVariable x, 
+               IntegerVariable y) {
+      super();
+      name = "d=|x-y|";
+      IntegerVariable z = new IntegerVariable();
+      add(new Add(x,y,z));
+      add(new Abs(d,z));
+      setVariables(new Variable[] {d,x,y});
+   }
+}
+\end{verbatim}
+This problem contains the {\tt Add} and {\tt Abs} constraints and the 
+{\tt x}, {\tt y} and {\tt z} constrained variables. It also defines internally
+the {\tt z} variable, which is the difference between {\tt x} and {\tt y}.
+It is not difficult to see that this problem corresponds to the distance 
+relation $d=|x-y|$.
+
+Fortunately in {\jcs}, problems offer an interesting property: 
+they can be added to a higher-level problem (eg the top-level problem) and thus 
+can be re-used as constraints. 
+Hence, we could write:
+\begin{verbatim}
+problem.add(new Dist(d, x, y));
+\end{verbatim}
+where {\tt problem} would just be another higher-level problem.
+
+%----------------------------------------------------------------------------
+\chapter{Solvers and heuristics}
+\label{chap:solvers-heuristics}
+This chapter goes into the details of solvers and 
+explain how they use heuristics to solve the problems.
+
+%----------------------------------------------------------------------------
+\section{The hierarchy of solvers}
+Solvers (control layer) are another pillar of {\jcs}: 
+they control the resolution of the problem at hand.
+This is the part that one is the most likely to customize, which is why
+{\jcs} offers a comprehensive hierarchy of solvers, allowing precise implementation
+or overriding of methods and thus fine-grained control over the solution search.
+% MAT: tu as surement qque chose de precis en tete quand tu dis "allowing
+% precise implementation or overriding of methods". Sans savoir de quoi il
+% s'agit, je trouve que la phrase me laisse sur ma fin.
+The most important elements of that hierarchy are described here. 
+
+Refer to the \javadoc for a complete description of the hierarchy of solvers.
+
+\subsection{General solvers}
+% MAT: cela me semble inutile a ce stade
+%Given a problem, a general solver is responsible for finding its solutions. 
+
+In \jcs\, all solver implement the {\tt Solver} interface, which define their
+common behavior.
+Requesting a solver to solve its associated problem is achieved by:
+\begin{verbatim}
+solver.solve(n);
+\end{verbatim}
+where {\tt n} is the requested number of solutions. Requesting {\tt n}
+solutions does not imply that the problem has more or less than {\tt n}
+solutions. It means that once the solver has found {\tt n} solutions,
+it will stop searching for additional ones. If there are less than {\tt n}
+solutions to the problem, the solver will find all solutions and return after
+proving that no other solution can be found.
+
+When the solver is done, but before the {\tt solve} method returns, the {\tt
+  solved} method is called.
+By default\footnote{It can be overridden.} for all \jcs\ solvers, 
+it displays the solutions and the solver counters.
+The counters depend on the type of solver, 
+but contain at least the total amount of time spent finding the solutions.
+
+After the {\tt solve} method returns, 
+the computed solutions can be accessed with the {\tt
+  getSolutions} method, 
+which returns a {\tt SolutionStack} (see the {\javadoc} for more details).
+
+A useful \jcs\ implementation of the {\tt Solver} interface is the {\tt
+  BaseSolver} class, an abstract class representing the
+solvers that find the solutions one after another. This is the most 
+common case of solution search\footnote{Problems with only linear
+  equations as their constraints can, on the contrary, be solved globally.
+  The corresponding solvers could, in such cases, directly implement the {\tt
+  Solver} interface.}.
+
+The {\tt BaseSolver} class has two interesting methods, that can both be
+overriden:
+\begin{itemize}
+\item {\tt noMoreSolutions}, which is called when 
+it is not possible to find the required number of solutions;
+\item {\tt solutionFound}, which is called each time a new solution is found.
+By default it displays the values of the counters relative to that solution.
+\end{itemize}
+
+\subsection{Solvers that know how to backtrack}
+{\tt BacktrackSolver} is the abstract class of solvers that know how to
+backtrack,  which means that they know how to explore choices.
+Choices are decisions taken by the solver during the search for solutions,
+just like the choices you would have to make at each crossing if you had to
+get out of a labyrinth. They are represented in \jcs\ by the {\tt ChoicePoint}
+class. 
+% MAT: cette histoire de disjonction n'est pas intuitive pour le
+% neophyte. Doit-on en parler ici?
+% (they use {\tt ChoicePoint}s which implement disjunctions).
+
+Backtrack solvers have additional counters that deal with 
+the number of backtracks used to find the solutions.
+
+{\tt SplitSolver} is a concrete sub-class of {\tt BacktrackSolver}.
+It constructs choices by:
+\begin{enumerate}
+\item choosing a variable; 
+\item choosing a new domain for this variable, for example by instantiating
+  the variable.
+\end{enumerate}
+Let us consider a {\tt SplitSolver} instance and a variable $x$, chosen by the
+solver, with $[1,4]$ as its initial domain. The choice to make for the domain
+can mathematically be represented by the disjunction $x\in [1,2] \vee x \in
+[3,4]$ (the domain is {\em split} in halves). If the solver decides to reduce
+the domain of $x$ to $[1,2]$, it will memorize the domain $[3,4]$ in a {\tt
+  ChoicePoint} instance and continue its search. If there is no solution with
+$x \in [1,2]$, the solver will then backtrack to $x \in [3,4]$ and finish the
+search in this domain.
+
+The constructor of the {\tt SplitSolver} class takes three arguments:
+\begin{itemize}
+\item a problem;
+\item a variable heuristic, used to select the variable;
+\item a domain heuristic, used to create the new domain.
+\end{itemize} 
+
+Note that {\jcs} comes with the {\tt DefaultSplitSolver} class, which uses
+standard heuristics and thus gets constructed with a single argument:
+\begin{verbatim}
+Solver solver = new DefaultSplitSolver(pb);
+\end{verbatim}
+which is equivalent to:
+\begin{verbatim}
+new SplitSolver(pb, 
+                new KeepOrderVariableHeuristic(), 
+                new IncreasingOrderDomainHeuristic());
+\end{verbatim}
+
+%----------------------------------------------------------------------------
+\section{Heuristics}
+We describe here the main heuristics included in {\jcs}.
+
+\subsection{Variable heuristics}
+A variable heuristic is responsible for selecting a variable among the problem
+variables {\em which are not already instantiated}. As we have seen before,
+such selections are needed by the solvers during the search for
+solutions. Among others, the following variable heuristics are provided with
+{\jcs}:
+\begin{itemize}
+\item {\tt KeepOrderVariableHeuristic} chooses the first variable;
+\item {\tt SmallestVariableHeuristic} chooses the variable with the 
+smallest domain (it corresponds to the first-fail principle);
+\item {\tt MostConstrainedVariableHeuristic} chooses the variable involved in
+  the highest number of constraints; % MAT: bien que je comprenne parfaitement
+                                     % l'ancienne définition, je la trouve
+                                     % finalement ambigue pour une première
+                                     % approche
+\item {\tt MaxRegretVariableHeuristic} chooses the variable with the greatest
+{\em regret}. It applies to cases when a cost is associated, for each
+variable, to each value of the variable domain. For a given variable, the {\em
+  regret} is then defined as the difference between its highest possible cost
+and its second highest possible cost. The constructor of this class naturally
+takes an argument defining the costs.
+\end{itemize}
+Refer to the {\javadoc} for the complete set of the variable heuristics.
+
+\subsection{Domain heuristics}
+A domain heuristic is responsible for creating a new sub-domain for the
+selected variable, a critical operation during the search for solutions. Among
+others, the following domain heuristics are provided with {\jcs}:
+\begin{itemize}
+\item {\tt IncreasingOrderDomainHeuristic} instantiates the variable with its
+minimal possible value (the domain is reduced to a singleton);
+\item {\tt SplitLowDomainHeuristic} splits the domain into halves and chooses
+  the ``low'' half;
+\item {\tt MinCostDomainHeuristic} instantiates the variable with a value 
+of minimal cost (the domain is reduced to a singleton). The constructor of
+this class naturally takes an argument defining the costs.
+\end{itemize}
+Refer to the {\javadoc} for the complete set of the domain heuristics.
+
+%----------------------------------------------------------------------------
+\chapter{Optimizers}
+\label{chap:optimizers}
+This chapter introduces the generic concept of optimizers. 
+Optimizers are responsible for computing optimal solutions.
+
+%----------------------------------------------------------------------------
+\section{The hierarchy of optimizers}
+Each optimizer being parameterized by a solver, 
+there is a hierarchy of optimizers matching the solver hierarchy. 
+Refer to the {\javadoc} for a complete description of the optimizer hierarchy.
+
+The two concrete classes at the bottom of this hierarchy are: {\tt Minimizer}
+and {\tt Maximizer}.
+A {\tt Minimizer} instance is declared and defined as follows:
+\begin{verbatim}
+Optimizer minimizer = new Minimizer(varToMinimize,
+                                    solver,        
+                                    mode);
+\end{verbatim}
+The third constructor argument (the optimization mode) is described in the next
+section.
+
+{\tt Maximizer} instances are declared identically.
+
+%----------------------------------------------------------------------------
+\section{Optimization modes}
+Optimizers find the global optimum by searching for a sequence of local
+optima. 
+They can work in two distinct modes,
+{\tt Optimizer.RESTART} or {\tt Optimizer.CONTINUE}:
+\begin{itemize}
+\item in the {\tt RESTART} mode, each time a local optimum is found, the
+  problem is enriched with a new constraint excluding that optimum from
+  the solutions, and the entire search space is again explored "from the
+  beginning" to search for the next local optimum;
+\item in the {\tt CONTINUE} mode, the search space is explored incrementally.
+\end{itemize}
+The {\tt CONTINUE} mode generally gives better results, except for some
+heuristics that require a well-balanced search space.
+
+%----------------------------------------------------------------------------
+\end{document}

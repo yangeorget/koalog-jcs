@@ -1,0 +1,104 @@
+%----------------------------------------------------------------------------
+\documentclass[a4paper,11pt]{article}
+\usepackage{times}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage[eurosym,right]{eurofont}
+
+\definecolor{Blue}{rgb}{0.4,0.4,0.9}
+
+%----------------------------------------------------------------------------
+\input{../../../util/tex/products}
+\input{../version}
+
+%----------------------------------------------------------------------------
+\def\cp{Constraint Programming}
+
+%----------------------------------------------------------------------------
+\begin{document}
+\pagestyle{empty}
+\title{{\jcs} licenses \& prices}
+\author{Copyright 2002-2006 \koalog}
+\date{}
+\maketitle
+
+\begin{center}
+\begin{minipage}{9cm}
+This document is confidential and should not be disclosed without the consent
+of Koalog.
+\end{minipage}
+\end{center}
+
+%----------------------------------------------------------------------------
+\section{Licenses \& prices} 
+Licenses are detailed in table \ref{tab:prices}.
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|p{2cm}||p{1cm}|p{2cm}|p{2.5cm}|p{1.8cm}|p{1.9cm}|}
+\hline
+    {\bf License} & {\bf price} & {\bf users} & {\bf use} & {\bf updates} & {\bf maintenance}\\
+\hline
+\hline
+Evaluation license (see section \ref{sec:evaluation}) & free & 1 designated & evaluation & n/a & n/a \\
+\hline
+Research license (see section \ref{sec:academic}) & \euros{600} & 1 designated
+    & research & free (see section \ref{sec:updates}) & 15\% (see section
+    \ref{sec:maintenance})\\
+\hline
+Education license (see section \ref{sec:academic}) & \euros{1800} & 1 designated
+    & research, education & free (see section \ref{sec:updates}) & 15\% (see section
+    \ref{sec:maintenance})\\
+\hline
+Development license & \euros{600} & 1 designated
+    & development, no commercial use & free (see section \ref{sec:updates}) &
+    15\% (see section \ref{sec:maintenance})\\
+\hline
+Production license (see section \ref{sec:production})& \euros{2400} & 1 designated
+    & production on a single CPU, no redistribution & free (see section \ref{sec:updates}) &
+    15\% (see section \ref{sec:maintenance})\\
+\hline
+\end{tabular}
+\caption{\label{tab:prices}{\jcs} licenses \& prices}
+\end{center}
+\end{table}
+
+\section{Evaluation licenses}
+\label{sec:evaluation}
+Evaluations licenses are valid 15 days and can be requested only once per
+institution.
+
+\section{Academic licenses}
+\label{sec:academic}
+Academic (education or research) licenses are granted to researchers and
+teachers working in public research centers and universities, 
+and can be used to do research.
+ 
+Education licenses can be shared with the students attending the course.
+
+\section{Production licenses}
+\label{sec:production}
+Production licenses are assigned to designated users. For server based
+production licenses, please contact {\tt sales@koalog.com}.
+
+Redistribution of the software is not allowed without Koalog's written
+agreement.
+
+\section{Updates}
+\label{sec:updates}
+Updates are free when the minor version number changes and the major
+version number remains the same, otherwise they costs 50\%
+of the price of the license.
+
+\section{Maintenance}
+\label{sec:maintenance}
+The first year of maintenance is free of charge. Each following year, the
+maintenance is charged 15\% of the license price.
+
+%----------------------------------------------------------------------------
+\section{More information} 
+Contact {\tt sales@koalog.com} for special licensing schemes, redistribution,
+volume discount.
+
+%----------------------------------------------------------------------------
+\end{document}
+

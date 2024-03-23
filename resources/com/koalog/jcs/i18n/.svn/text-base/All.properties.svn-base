@@ -1,0 +1,25 @@
+BACKTRACKS=backtrack(s)
+MAX_DEPTH=max depth
+FILTERS=filter(s)
+BACKTRACKS_IN_TOTAL=backtrack(s) in total
+FILTERS_IN_TOTAL=filter(s) in total
+SOLUTION_FOUND_IN=solution found in
+SOLVED_IN=solved in
+NO_MORE_SOLUTION=no more solution
+MS=ms
+IS_A_NEW_OPTIMUM_FOR=is a new optimum for
+TIMEOUT=time-out
+ITERATIONS=iterations
+MINIMA=minima
+RESETS=resets
+RESTARTS=restarts
+
+ERR_INV_LIC=Invalid license!
+ERR_INV_LIC_FMT=Invalid license format!
+ERR_INV_LIC_PROD=The installed license is not valid for this product.
+ERR_INV_LIC_DATE=This license has expired!
+LAB_EVAL_LIC=EVALUATION license, can only be used for evaluation purposes
+LAB_DEV_LIC=DEVELOPMENT license, cannot be used in production 
+LAB_RUN_LIC=PRODUCTION license
+LAB_LICENSED_TO=This software license can ONLY be used by
+LAB_EXPIRES=expires

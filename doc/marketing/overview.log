@@ -1,0 +1,197 @@
+This is pdfeTeX, Version 3.141592-1.21a-2.2 (Web2C 7.5.4) (format=latex 2006.11.27)  16 DEC 2007 19:28
+entering extended mode
+**overview.tex
+(./overview.tex
+LaTeX2e <2003/12/01>
+Babel <v3.8d> and hyphenation patterns for american, french, german, ngerman, b
+ahasa, basque, bulgarian, catalan, croatian, czech, danish, dutch, esperanto, e
+stonian, finnish, greek, icelandic, irish, italian, latin, magyar, norsk, polis
+h, portuges, romanian, russian, serbian, slovak, slovene, spanish, swedish, tur
+kish, ukrainian, nohyphenation, loaded.
+(/usr/share/texmf/tex/latex/base/article.cls
+Document Class: article 2004/02/16 v1.4f Standard LaTeX document class
+(/usr/share/texmf/tex/latex/base/size11.clo
+File: size11.clo 2004/02/16 v1.4f Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf/tex/latex/psnfss/times.sty
+Package: times 2004/09/15 PSNFSS-v9.2 (SPQR) 
+)
+(/usr/share/texmf/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf/tex/latex/graphics/graphics.sty
+Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texmf/tex/latex/graphics/graphics.cfg
+File: graphics.cfg 2005/02/03 v1.3 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: dvips.def on input line 80.
+
+(/usr/share/texmf/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+(/usr/share/texmf/tex/latex/graphics/color.sty
+Package: color 1999/02/16 v1.0i Standard LaTeX Color (DPC)
+
+(/usr/share/texmf/tex/latex/graphics/color.cfg
+File: color.cfg 2005/02/03 v1.3 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: dvips.def on input line 125.
+
+(/usr/share/texmf/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+(../../../util/tex/products.tex) (../version.tex) (./overview.aux)
+\openout1 = `overview.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 17.
+
+(/usr/share/texmf/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+File: logo.eps Graphic file (type eps)
+ <logo.eps>
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20.74> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 26.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <20.74> on input line 26.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 26.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 26.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <14.4> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 26.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <10.95> on input line 29.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 29.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 29.
+ [1
+
+
+]
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 51.
+
+(/usr/share/texmf/tex/latex/psnfss/omsptm.fd
+File: omsptm.fd 
+)
+LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 51.
+
+Underfull \hbox (badness 3333) in paragraph at lines 55--56
+[]\OT1/ptm/m/n/10.95 configuration: Koa-log Configurator$[]$ is
+ []
+
+
+Underfull \hbox (badness 1127) in paragraph at lines 75--77
+\OT1/ptm/m/n/10.95 Each of these con-straints, in par-tic-u-lar global
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 89--90
+\OT1/ptm/m/n/10.95 Koa-log Con-straint Solver$[]$ intuitively-
+ []
+
+File: ../archi.eps Graphic file (type eps)
+<../archi.eps>
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 112.
+
+Underfull \hbox (badness 1895) in paragraph at lines 112--114
+\OT1/ptm/m/n/10.95 ing on the pro-gram-mer
+ []
+
+
+Overfull \hbox (2.16928pt too wide) in paragraph at lines 110--123
+ [] 
+ []
+
+[2
+
+]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 136.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 136.
+
+Underfull \hbox (badness 1087) in paragraph at lines 135--138
+[]\OT1/ptm/m/n/10.95 it is fully tested (it re-lies on JU-nit[] and
+ []
+
+
+Underfull \hbox (badness 1917) in paragraph at lines 144--146
+\OT1/ptm/m/n/10.95 Koalog Con-straint Solver$[]$ is cur-rently used
+ []
+
+
+Underfull \hbox (badness 3049) in paragraph at lines 144--146
+\OT1/ptm/m/n/10.95 in an industry-level car con-fig-u-ra-tor (Koa-log
+ []
+
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 160.
+
+(/usr/share/texmf/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+Underfull \hbox (badness 10000) in paragraph at lines 178--178
+[]\OT1/ptm/m/n/10.95 Windows[] XP
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 179--179
+[]\OT1/ptm/m/n/10.95 Solaris$[]$ Sparc
+ []
+
+
+Overfull \hbox (27.15599pt too wide) in paragraph at lines 169--182
+ [] 
+ []
+
+[3] [4
+
+] (./overview.aux) ) 
+Here is how much of TeX's memory you used:
+ 891 strings out of 94500
+ 11349 string characters out of 1172832
+ 60815 words of memory out of 3500000
+ 4080 multiletter control sequences out of 10000+50000
+ 15353 words of font info for 46 fonts, out of 500000 for 2000
+ 580 hyphenation exceptions out of 1000
+ 25i,16n,19p,203b,339s stack positions out of 1500i,500n,5000p,200000b,5000s
+
+Output written on overview.dvi (4 pages, 12164 bytes).

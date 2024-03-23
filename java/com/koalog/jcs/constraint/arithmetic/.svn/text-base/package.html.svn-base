@@ -1,0 +1,12 @@
+<BODY>
+This package contains various arithmetic constraints.
+
+<P>In particular, it contains the following global constraints:
+<UL>
+<LI>AllDifferent,
+<LI>Cycle,
+<LI>GCC,
+<LI>Permutation,
+<LI>Sort.
+</UL>
+</BODY>

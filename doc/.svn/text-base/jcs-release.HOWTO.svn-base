@@ -1,0 +1,50 @@
+HOWTO release a new version of JCS
+----------------------------------
+Util:
+- make a release
+
+Style:
+- check and fix the style (make style)
+
+Tests:
+- check the latest supported versions of the JDKs
+- make sure the tests pass on all supported platforms for jcs (make test)
+- make sure the tests pass on all supported platforms for jcf (fix VERSION, make a release then make test)
+- check the coverage (make clean build localcoverage)
+
+Doc:
+- check the javadoc (make javadoc)
+- update the pdfs
+- write a PR
+ 
+RELEASE_NOTES.html:
+- add the new features
+- add the bugs fixed (see Mantis)
+
+Version:
+- fix the version number in VERSION.
+- create the release (make release). 
+- make localreleasetest (to run the tests against the released jars).
+- tag SVN
+svn copy svn+ssh://tamburini/home/svn/trunk/jcs svn+ssh://tamburini/home/svn/tags/jcs/release-x.y -m "release x.y"
+
+WWW:
+- create a news item
+- fix jcs.php in particular the release note extract
+- run the scripts jcs-docs.sh and jcs-examples.sh
+- upload the pdfs, the javadoc, the release notes, the examples
+- copy the PR
+
+Advertise in:
+- newsgroups: comp.ai, comp.constraints, comp.lang.java.announce, sci.op-research
+- open directory project (in Computers: Programming: Languages: Constraint)
+- http://maja.iwr.uni-heidelberg.de/imnet/index.php
+- freshmeat (Koalog/koalogpwd)
+- www.java.net (yangeorget/mahnouch)
+- www.jguru.com (yan.georget@koalog.com/mahnouch)
+- www.javalobby.com (yan.georget@koalog.com/koalog)
+- www.jsurfer.org/
+- www-130.ibm.com/developerworks/java/ (yangeorget/mahnouch)
+- www.javaworld.com (send email to carolyn_wong@javaworld.com)
+
+- get list of people interested in KCS (...query...) and send them the following email...

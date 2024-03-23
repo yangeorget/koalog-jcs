@@ -1,0 +1,47 @@
+\contentsline {chapter}{\numberline {1}About this guide}{4}
+\contentsline {section}{\numberline {1.1}Who should use this guide}{4}
+\contentsline {section}{\numberline {1.2}Contents of this guide}{4}
+\contentsline {section}{\numberline {1.3}How to use this guide}{4}
+\contentsline {section}{\numberline {1.4}Conventions}{5}
+\contentsline {section}{\numberline {1.5}Related documents}{5}
+\contentsline {chapter}{\numberline {2}Introduction}{6}
+\contentsline {section}{\numberline {2.1}Combinatorial problems}{6}
+\contentsline {subsection}{\numberline {2.1.1}Satisfaction problems}{6}
+\contentsline {subsection}{\numberline {2.1.2}Optimization problems}{7}
+\contentsline {section}{\numberline {2.2}Constraint Programming}{7}
+\contentsline {subsection}{\numberline {2.2.1}Overview}{7}
+\contentsline {subsection}{\numberline {2.2.2}The three layers of {Koalog Constraint Solver\texttrademark }}{7}
+\contentsline {section}{\numberline {2.3}What is {Koalog Constraint Solver\texttrademark }?}{8}
+\contentsline {chapter}{\numberline {3}Using {Koalog Constraint Solver\texttrademark }}{9}
+\contentsline {section}{\numberline {3.1}Installation and usage}{9}
+\contentsline {subsection}{\numberline {3.1.1}Installing {Koalog Constraint Solver\texttrademark }}{9}
+\contentsline {subsection}{\numberline {3.1.2}Using {Koalog Constraint Solver\texttrademark }}{10}
+\contentsline {subsubsection}{License}{10}
+\contentsline {subsubsection}{Classpath}{10}
+\contentsline {subsection}{\numberline {3.1.3}{Log4J} configuration}{11}
+\contentsline {section}{\numberline {3.2}Quick tutorial}{11}
+\contentsline {chapter}{\numberline {4}Domains and variables}{15}
+\contentsline {section}{\numberline {4.1}Domains}{15}
+\contentsline {subsection}{\numberline {4.1.1}Intervals}{15}
+\contentsline {subsection}{\numberline {4.1.2}Sparse domains}{15}
+\contentsline {section}{\numberline {4.2}Variables}{16}
+\contentsline {chapter}{\numberline {5}Constraints and problems}{17}
+\contentsline {section}{\numberline {5.1}Constraints}{17}
+\contentsline {subsection}{\numberline {5.1.1}Pre-defined constraints}{17}
+\contentsline {subsection}{\numberline {5.1.2}A constraint from the inside}{17}
+\contentsline {subsubsection}{Method {\tt filter}}{18}
+\contentsline {subsubsection}{Method {\tt updateDepencencies}}{19}
+\contentsline {subsubsection}{Complete code}{19}
+\contentsline {section}{\numberline {5.2}Problems}{20}
+\contentsline {subsection}{\numberline {5.2.1}Basic use of problems}{20}
+\contentsline {subsection}{\numberline {5.2.2}Nested problems}{20}
+\contentsline {chapter}{\numberline {6}Solvers and heuristics}{21}
+\contentsline {section}{\numberline {6.1}The hierarchy of solvers}{21}
+\contentsline {subsection}{\numberline {6.1.1}General solvers}{21}
+\contentsline {subsection}{\numberline {6.1.2}Solvers that know how to backtrack}{22}
+\contentsline {section}{\numberline {6.2}Heuristics}{23}
+\contentsline {subsection}{\numberline {6.2.1}Variable heuristics}{23}
+\contentsline {subsection}{\numberline {6.2.2}Domain heuristics}{23}
+\contentsline {chapter}{\numberline {7}Optimizers}{24}
+\contentsline {section}{\numberline {7.1}The hierarchy of optimizers}{24}
+\contentsline {section}{\numberline {7.2}Optimization modes}{24}

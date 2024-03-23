@@ -1,0 +1,18 @@
+Paris, France - May 2004 - Koalog announces the release of Koalog Constraint
+Solver v2.0.
+
+Koalog Constraint Solver (KCS) is a powerful constraint solver written in 
+the Java (TM) programming language. It provides cutting-edge technology for 
+solving satisfaction and optimization problems, including: scheduling, time
+tabling, resource allocation, configuration. 
+KCS includes a solver on integer and set domains, many global constraints 
+such as: AllDifferent, Cumulative, Cycle, GCC, Inverse, Sort.
+
+Visit http://www.koalog.com/php/jcs.php for documentation, code examples, 
+KCS release notes.
+
+About Koalog: founded in 2002, headquartered in Paris, Koalog is a software
+company developing components and applications for problem solving, 
+configuration, journey planning. 
+
+Visit http://www.koalog.com for additional information.

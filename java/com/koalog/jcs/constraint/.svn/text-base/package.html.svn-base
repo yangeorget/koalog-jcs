@@ -1,0 +1,10 @@
+<BODY>
+This package and its sub-packages define constraints 
+(mathematical relations over variables).
+
+<P>Constraints encapsulate filtering algorithms 
+(the algorithm layer of Koalog Constraint Solver).
+
+<P>This package also contain constraint schedulers. 
+Constraint schedulers are responsible for scheduling the constraint to be filtered.
+</BODY>

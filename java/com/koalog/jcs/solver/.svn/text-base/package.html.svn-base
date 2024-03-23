@@ -1,0 +1,11 @@
+<BODY>
+This package defines solvers and heuristics.
+
+<P>Solvers are the control layer of Koalog Constraint Solver.
+
+<P>Two types of solvers are available:
+<UL>
+<LI>exact solvers (subclasses of <CODE>BacktrackSolver</CODE>),
+<LI>local search solvers (subclasses of <CODE>AdaptiveSolver</CODE>).
+</UL>
+</BODY>

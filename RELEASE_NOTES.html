@@ -1,0 +1,210 @@
+<H3><A href="http://www.koalog.com/php/jcs.php">Koalog Constraint Solver</A> release notes</H3>
+<H4>Version 3.1</H4>
+
+<P>Features:</P>
+<UL>
+<LI> New constraints: 
+<CODE>LexLeq</CODE>, <CODE>LexIncreasing</CODE>,
+<CODE>WeightedSum</CODE>, <CODE>ConstantWeightedSum</CODE>, <CODE>ConstantWeightedSums</CODE>, 
+<CODE>AllDifferentConstantSum</CODE>, <CODE>AllDifferentConstantSum_SPARSE</CODE>, 
+<CODE>AllDifferentSum</CODE>, <CODE>AllDifferentSum_SPARSE</CODE>,
+<CODE>AllDifferentSort</CODE>, <CODE>AllDifferentSort_SPARSE</CODE>,
+<CODE>Eq_SPARSE</CODE>, <CODE>Mul_SPARSE</CODE>, <CODE>Div_SPARSE</CODE>.
+<LI> Updated support matrix.
+</UL>
+
+<P>API changes:</P>
+<UL>
+<LI> Renamed methods for shaving in <CODE>BacktrackSolver</CODE>,
+<LI> Constraint <CODE>Hyperplan</CODE> has been removed (replaced by <CODE>ConstantWeightedSum</CODE>).
+</UL>
+
+<H4>Version 3.0</H4>
+
+<P>Features:</P>
+<UL>
+<LI> Added shaving methods to <CODE>IntegerVariable<CODE>.
+<LI> New constraints: <CODE>LatinSquare</CODE>, <CODE>LatinSquare_SPARSE</CODE>.
+<LI> Added back constraint <CODE>Opp</CODE>.
+<LI> New domain heuristic: <CODE>RandomOrderDomainHeuristic</CODE>.
+<LI> Various optimizations leading to a 25% performance improvement.
+</UL>
+
+<P>API changes:</P>
+<UL>
+<LI> Renamed <CODE>Range</CODE> into <CODE>InDomain</CODE>.
+<LI> Renamed <CODE>InRange</CODE> into <CODE>IsInDomain</CODE>.
+<LI> Renamed <CODE>Eq1</CODE> into <CODE>Eq_1</CODE>.
+<LI> Renamed <CODE>Neq1</CODE> into <CODE>Neq_1</CODE>.
+<LI> Renamed <CODE>Neq1_SPARSE</CODE> into <CODE>Neq_1SPARSE</CODE>.
+</UL>
+
+<H4>Version 2.6</H4>
+
+<P>Features:</P>
+<UL>
+<LI> Optimized <CODE>AllDifferent_SPARSE</CODE>.
+<LI> New constraints: <CODE>ColoredMatrix_SPARSE</CODE>, <CODE>Neq1</CODE>, <CODE>InRange</CODE>, <CODE>GreaterSum</CODE>, <CODE>SmallerSum</CODE>.
+<LI> Real ANYTIME constraint solving. 
+<LI> Introduced a hierarchy of consistency exceptions allowing basic failure explanations.
+</UL>
+
+<P>API changes:</P>
+<UL>
+<LI> Constraint <CODE>Inverse</CODE> has been removed.
+<LI> The API of constraint <CODE>Permutation</CODE> has changed.
+<LI> Refactored solvers API and introduced <CODE>TimeOutException</CODE>.
+</UL>
+
+<H4>Version 2.5</H4>
+
+<P>API changes:</P>
+<UL>
+<LI> Renamed <CODE>GCC</CODE> into <CODE>GCC_SPARSE</CODE>.
+</UL>
+
+<P>Features:</P>
+<UL>
+<LI> Updated support matrix.
+<LI> Added a script to test the version of the solver: bin/kcs.
+<LI> New constraints: <CODE>GCC</CODE>, <CODE>Disjunction</CODE>, <CODE>Min</CODE>, <CODE>Max</CODE>.
+</UL>
+
+<P>Bug fixes:</P>
+<UL>
+<LI> 0021274: exception in Prod filtering algorithm (division by zero).
+</UL>
+
+<H4>Version 2.4</H4>
+
+<P>Features:</P>
+<UL>
+<LI> Added back constraints <CODE>Dist</CODE>, <CODE>ColoredMatrix</CODE>.
+<LI> New constraints: <CODE>Eq1</CODE>, <CODE>Neq1_SPARSE</CODE>.
+<LI> Various small optimizations.
+</UL>
+
+<H4>Version 2.3</H4>
+<P>API changes:</P>
+<UL>
+<LI> Methods for adding relations to a problem have been refactored 
+(see JavaDoc).
+<LI> Array of values used by <CODE>Range</CODE> constraint has to be sorted.
+<LI> Domain heuristics <CODE>AlternateOrderFrom{Min,Max}DomainHeuristic</CODE> have been removed.
+<LI> Variable heuristic <CODE>InverseOrderVariableHeuristic</CODE> has been removed.
+<LI> Constraint <CODE>IsGreater</CODE> has been removed.
+<LI> Constraint method <CODE>updateConstraints</CODE> renamed into
+<CODE>updateDependencies</CODE>.
+</UL>
+
+<P>Features:</P>
+<UL>
+<LI> Supported on Java 5.
+<LI> Addition of a local search solver: <CODE>AdaptiveSolver</CODE>.
+<LI> New constraints: <CODE>Prod</CODE>, <CODE>Prime</CODE>.
+<LI> The <CODE>post</CODE> method on <CODE>BacktrackSolver</CODE> allows to
+dynamically add constraints to the underlying problem.
+<LI> <CODE>BacktrackSolver</CODE> uses <CODE>long</CODE> instead of <CODE>int</CODE> to
+store backtrack and time counters.
+<LI> Constraints and problems are now identified by an id (see Log4J debug
+channel).
+<LI> Various small optimizations in <CODE>BacktrackSolver</CODE>.
+</UL>
+
+<H4>Version 2.2</H4>
+<P>API changes:</P>
+<UL>
+<LI> In scheduler: <CODE>FixedTask</CODE> removed, <CODE>Task</CODE> constructor modified.
+<LI> <CODE>IsSmallerEq_3</CODE> replaced by a modified version of <CODE>IsSmaller_3</CODE>.
+</UL>
+
+<P>Features:</P>
+<UL>
+<LI> Various optimizations in constraints, constraint schedulers, choice points.
+<LI> New constraint: <CODE>Disjunctive</CODE>.
+</UL>
+
+<P>Bug fixes:</P>
+<UL>
+<LI> 0021155: <CODE>BaseDomainHeuristic</CODE> does not always generate the expected events. 
+<LI> 0021163: Bug in filter method of <CODE>Cumulative_AUX2</CODE> constraint. 
+</UL>
+
+<H4>Version 2.1</H4>
+<P>API changes:</P>
+<UL>
+<LI> API for storing objects in the choice point stack: <CODE>StorableReference</CODE>, <CODE>StorableValue</CODE>.
+<LI> Added back <CODE>init</CODE> method on constraints.
+</UL>
+
+<P>Features:</P>
+<UL>
+<LI> New constraints: <CODE>IntersectionMaxSize</CODE>, <CODE>Partition</CODE>.
+<LI> <CODE>Cycle</CODE> does not enforce <CODE>Permutation</CODE> anymore and has been optimized.
+<LI> New platforms-JDKs support matrix.
+</UL>
+
+<H4>Version 2.0</H4>
+<P>API changes:</P>
+<UL>
+<LI> Constraint scheduler API has been refactored.
+<LI> <CODE>Problem</CODE> does not extend <CODE>Constraint</CODE> anymore.
+<LI> New constraints: <CODE>Atleast</CODE>, <CODE>Atleast_SPARSE</CODE> (on integer variables, the corresponding constraints on boolean variables have been removed).
+<LI> Other constraints removed: <CODE>Diff</CODE>, <CODE>Dist</CODE>, <CODE>IsSmallerEq</CODE>, <CODE>LessShift</CODE>, <CODE>Opp</CODE>, <CODE>ColoredMatrix</CODE>, <CODE>{Mul, Add, Shift}_SPARSE</CODE>, <CODE>AllDifferent_{NEQ, NEQSPARSE}</CODE>.
+</UL>
+
+<P>Features:</P>
+<UL>
+<LI> Choice points optimization.
+</UL>
+
+<H4>Version 1.5</H4>
+<P>Features:</P>
+<UL>
+<LI> New constraint: <CODE>Relation</CODE>.
+<LI> Constraint complexities are now dynamically computed.
+</UL>
+
+<H4>Version 1.4_1</H4>
+<P>Bug fixes:</P>
+<UL>
+<LI> 0021141: Installation failed in some cases with j2sdk1.4.x.
+</UL>
+
+<H4>Version 1.4</H4>
+<P>Features:</P>
+<UL>
+<LI> Solver on set variables.
+<LI> Many set constraints such as: <CODE>Union</CODE>, <CODE>Intersection</CODE>, <CODE>Intersects</CODE>, <CODE>Contains</CODE>, <CODE>Card</CODE>, ...
+<LI> New global constraints: <CODE>ColoredMatrix</CODE>, <CODE>GCC</CODE> (Global Cardinality Constraint).
+<LI> Various optimizations (computation speed) in constraints, and solvers.
+</UL>
+
+<H4>Version 1.3</H4>
+<P>Features:</P>
+<UL>
+<LI> Entailment check.
+<LI> Constraints now depend on events: <CODE>ground</CODE>, <CODE>minChanged</CODE>, <CODE>maxChanged</CODE>, ...
+<LI> New global constraint: <CODE>Cumulative</CODE>.
+</UL>
+
+<H4>Version 1.2</H4>
+<P>Features:</P>
+<UL>
+<LI> Various optimizations (memory usage and computation speed) in constraints, choice points and solvers.
+<LI> Problems can now be flat.
+<LI> New global constraints: <CODE>Atmost</CODE>, <CODE>Sort</CODE>, <CODE>Inverse</CODE>.
+</UL>
+
+<H4>Version 1.1</H4>
+<P>Features:</P>
+<UL>
+<LI> Constraint <CODE>Cycle</CODE> is now a problem.
+<LI> A <CODE>ConstraintScheduler</CODE> now schedules the constraints to be filtered.
+<LI> New constraints: <CODE>{Leq, Less}Shift</CODE>, <CODE>Atleast</CODE>, <CODE>Atmost</CODE>, <CODE>Exactly</CODE>.
+</UL>
+
+<H4>Version 1.0</H4>
+<UL>
+<LI> First public version of Koalog Constraint Solver.
+</UL>

@@ -1,0 +1,79 @@
+8
+
+dir
+10210
+svn+ssh://WPC0549.AMENWORLD.COM/home/svn/trunk/jcs/doc
+svn+ssh://WPC0549.AMENWORLD.COM/home/svn
+
+
+
+2006-03-30T09:43:06.167834Z
+9621
+yan
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+b86a8a69-ae01-0410-9fd4-d4a2597bb3dd
+
+marketing
+dir
+
+articles
+dir
+
+CHANGES.log
+file
+
+
+
+
+2007-09-02T15:12:28.000000Z
+2fdeb8a3b3a2f0bc4407d41e3473fe83
+2003-04-18T10:51:42.000000Z
+3123
+yan
+has-props
+
+technical
+dir
+
+archi.fig
+file
+
+
+
+
+2007-09-02T15:12:28.000000Z
+65e23e2c9b4da2e4dda9b3dc29c7bcbd
+2005-02-16T14:36:50.000000Z
+7303
+yan
+has-props
+
+jcs-release.HOWTO
+file
+
+
+
+
+2007-09-02T15:12:28.000000Z
+9438e498249a4e8470f72d7c06540e0a
+2005-12-16T17:05:31.324369Z
+9006
+yan
+has-props
+
+packages
+dir
+

@@ -1,0 +1,172 @@
+%----------------------------------------------------------------------------
+\documentclass[a4paper]{article}
+\usepackage{times}
+
+%----------------------------------------------------------------------------
+\input{../../../util/tex/products}
+\input{../version}
+
+%----------------------------------------------------------------------------
+\def\cp{Programmation par Contraintes}
+
+%----------------------------------------------------------------------------
+\begin{document}
+\title{Pr\'esentation de {\jcs}}
+\author{Copyright 2002 \koalog}
+\date{}
+\maketitle
+
+\begin{center}
+\begin{minipage}{9cm}
+\begin{small}
+{\sunlegal}
+{\ibmlegal}
+{\mslegal}
+{\linuxlegal}
+\end{small}
+\end{minipage}
+\end{center}
+
+%----------------------------------------------------------------------------
+\section{Introduction} % MAT: 'Overview' ça fait trop répétition du titre.
+{\jcs} est une librairie {\java} pour la r\'esolution de contraintes.
+Avec cette librairie, il est possible de r\'esoudre des probl\`emes notoirement complexes tels que:
+\begin{itemize}
+\item l'ordonnancement;
+\item l'allocation de ressources;
+\item la planification;
+\item la cr\'eation d'emploi du temps;
+\item la configuration;
+\item et plus g\'en\'eralement, tout probl\`eme de satisfaction ou d'optimisation.
+\end{itemize}
+
+{\jcs} inclut des r\'esolveurs sur les domaines entiers, bool\'eens et
+ensemblistes, 
+ainsi qu'une importante collection de contraintes pr\'ed\'efinies.
+
+%----------------------------------------------------------------------------
+\section{Contraintes incluses}
+{\jcs} est livr\'e avec de nombreuses contraintes, r\'eparties dans les cat\'egories suivantes:
+\begin{itemize}
+\item contraintes arithm\'etiques (dont somme, diff\'erence, comparaison, valeur absolue);
+\item contraintes bool\'eennes (dont conjonction, disjonction, n\'egation);
+\item m\'eta-contraintes (dont tests de relations tels que: \'egalit\'e, comparaison);
+\item contraintes globales (dont alldifferent, cumulative, cycle,
+  disjunctive, global cardinality constraint, inverse, sort).
+\end{itemize}
+Chacune de ces contraintes, en particulier les contraintes globales, 
+utilisent des algorithmes de filtrage \`a la pointe de la technologie.
+
+%----------------------------------------------------------------------------
+\section{Facilit\'e d'utilisation}
+Habituellement, en {\cp}, 
+les \'etapes \`a suivre pour la r\'esolution d'un probl\`eme sont: 
+\begin{itemize}
+\item la mod\'elisation du probl\`eme;
+\item la conception d'un r\'esolveur adapt\'e au probl\`eme.
+\end{itemize}
+L'API {\java} de {\jcs} a \'et\'e con\c{c}ue de mani\`ere \`a ce que les utilisateurs n'aient pas besoin d'\^etre des sp\'ecialistes de la programmation par contraintes ni des experts {\java}:
+\begin{itemize}
+\item la mod\'elisation d'un probl\`eme s'effectue avec les classes fournies par {\jcs}, dont l'utilisation est intuitive;
+\item les r\'esolveurs fournis avec {\jcs} sont efficaces et suffisamment flexibles pour convenir \`a la plupart des probl\`emes,
+\'evitant le plus souvent la conception d'un r\'esolveur sp\'ecifique.
+\end{itemize}
+
+%----------------------------------------------------------------------------
+\section{Architecture ouverte}
+
+{\jcs} offre une architecture ouverte et extensible, \`a laquelle les utilisateurs exp\'eriment\'es peuvent facilement adjoindre leurs extensions. Le tableau \ref{tab:extensions} fournit de plus amples informations.
+\begin{table}[htbp]
+\begin{center}
+\begin{tabular}{|p{4cm}|p{7cm}|}
+\hline
+{\bf Extension}                                                 & {\bf Temps
+ de r\'ealisation} (d\'epend du niveau du d\'eveloppeur et de la complexit\'e)\\
+\hline
+\hline
+Ajouter une nouvelle contrainte                                         & de quelques heures \`a deux ou trois jours\\
+\hline
+D\'evelopper une nouvelle strat\'egie de recherche                                & de quelques heures \`a 2 ou 3 jours\\
+\hline
+D\'evelopper un nouveau r\'esolveur (r\'esolveur flou, etc)                      & de 2 ou 3 jours \`a une quinzaine de jours\\
+\hline
+\end{tabular}
+\caption{\label{tab:extensions}Exemples d'extensions}
+\end{center}
+\end{table}
+
+%----------------------------------------------------------------------------
+\section{Qualit\'e}
+{\jcs} a \'et\'e r\'ealis\'e dans le respect de nombreux crit\`eres de qualit\'e:
+\begin{itemize}
+\item documentation compl\`ete (Javadoc et tutoriel);
+\item internationalisable;
+\item enti\`erement test\'e
+(utilisation de {\junit}\footnote{{\junit} est un projet open-source cr\'e\'e par Kent Beck (auteur de ``Extreme Programming'').} 
+et de {\koalog} Code Coverage pour les tests);
+\item syst\`eme de logs enti\`erement param\'etrable ({\log4j}\footnote{{\log4j} est un projet open-source de l'{\asf}.}).
+\end{itemize}
+
+%----------------------------------------------------------------------------
+\section{Applications}
+\subsubsection*{Applications commerciales}
+{\jcs} est actuellement utilis\'e par un configurateur destin\'e \`a l'industrie automobile.
+
+\subsubsection*{Recherche}
+Des exemples de code source montrant comment r\'esoudre des probl\`emes classiques tels que 
+\begin{itemize}
+\item la r\`egle de Golomb,
+\item le voyageur de commerce,
+\item l'ordonnancement d'ateliers,
+\item les calendriers sportifs (dont les tournois {\em round-robin}),
+\item les prob\`emes de partition,
+\item le sac-\`a-dos,
+\item et beaucoup d'autres
+\end{itemize}
+sont disponibles sur le site internet de {\jcs}:\\
+{\tt http://www.koalog.com/php/jcs.php}.
+
+%----------------------------------------------------------------------------
+\section{Plates-formes support\'ees}
+{\jcs} est une librairie {\java} et peut donc \^etre int\'egr\'ee ais\'ement \`a n'importe quelle application {\java}.
+D\'etails dans le tableau \ref{tab:ports}.
+
+\begin{table}[htbp]
+\begin{center}
+\begin{tabular}{|l||r|r|r|r|r|}
+\hline
+                  & \multicolumn{4}{|c|}{Machine Virtuelle {\java}} \\ \cline{2-5}
+Syst\`eme d'exploitation  & \multicolumn{2}{|c|}{{\sun} {\jsdk}} & \multicolumn{2}{|c|}{{\ibm} JDK} \\ \cline{2-5}
+                  & 1.3.1 & 1.4.2 & 1.3.1 & 1.4.1 \\
+\hline
+\hline
+{\windowsXP}    & oui & oui & oui & n/a \\ 
+{\suse} 9.1     & oui & oui & non & oui \\
+{\fedoracore} 1 & oui & oui & non & oui \\
+{\solaris} Sparc 2.8  & oui & oui & n/a & n/a \\
+\hline
+\end{tabular}
+\caption{\label{tab:ports}Plate-formes support\'ees}
+\end{center}
+\end{table}
+
+%----------------------------------------------------------------------------
+\section{Informations commerciales}
+D\'etails dans le tableau \ref{tab:commercial}.
+
+\begin{table}[htbp]
+\begin{center}
+\begin{tabular}{|l||p{7cm}|}
+\hline
+Derni\`ere version & v\version \\
+\hline
+M\'ethodes de distribution & Ventes en direct \\
+\hline
+\end{tabular}
+\caption{\label{tab:commercial}Informations commerciales}
+\end{center}
+\end{table}
+
+%----------------------------------------------------------------------------
+\end{document}
+

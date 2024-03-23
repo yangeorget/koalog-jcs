@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+	<appender name="DEBUG" class="org.apache.log4j.FileAppender">
+		<param name="File" value="logs/covtest_debug.log"/>
+		<param name="Append" value="false"/>
+		<layout class="org.apache.log4j.PatternLayout">
+  		     <!-- param name="ConversionPattern"
+                            value="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/
+                            -->
+  		     <param name="ConversionPattern"
+                            value="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+		</layout>
+	        <!-- filter class="org.apache.log4j.varia.PriorityMatchFilter">
+		  <param name="PriorityToMatch" value="debug"/>
+		</filter -->
+	</appender>
+	<appender name="INFO" class="org.apache.log4j.FileAppender">
+		<param name="File" value="logs/covtest_info.log"/>
+		<param name="Append" value="false"/>
+		<layout class="org.apache.log4j.PatternLayout">
+  		     <param name="ConversionPattern"
+                            value="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+		</layout>
+	        <filter class="org.apache.log4j.varia.PriorityMatchFilter">
+		  <param name="PriorityToMatch" value="info"/>
+		</filter>
+	</appender>
+	<appender name="WARN" class="org.apache.log4j.FileAppender">
+		<param name="File" value="logs/covtest_warn.log"/>
+		<param name="Append" value="false"/>
+		<layout class="org.apache.log4j.PatternLayout">
+  		     <param name="ConversionPattern"
+                            value="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+		</layout>
+	        <filter class="org.apache.log4j.varia.PriorityMatchFilter">
+		  <param name="PriorityToMatch" value="warn"/>
+		</filter>
+	</appender>
+	<appender name="ERROR" class="org.apache.log4j.FileAppender">
+		<param name="File" value="logs/covtest_error.log"/>
+		<param name="Append" value="false"/>
+		<layout class="org.apache.log4j.PatternLayout">
+  		     <param name="ConversionPattern"
+                            value="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+		</layout>
+	        <filter class="org.apache.log4j.varia.PriorityMatchFilter">
+		  <param name="PriorityToMatch" value="error"/>
+		</filter>
+	</appender>
+	<appender name="FATAL" class="org.apache.log4j.FileAppender">
+		<param name="File" value="logs/covtest_fatal.log"/>
+		<param name="Append" value="false"/>
+		<layout class="org.apache.log4j.PatternLayout">
+  		     <param name="ConversionPattern"
+                            value="%d %-5p [%t] %C{2} (%F:%L) - %m%n"/>
+		</layout>
+	        <filter class="org.apache.log4j.varia.PriorityMatchFilter">
+		  <param name="PriorityToMatch" value="fatal"/>
+		</filter>
+	</appender>
+	<!-- category name="com.koalog.jcs">
+		<priority value="info"/>
+	</category -->
+	<root>
+		<priority value="info"/>
+		<appender-ref ref="DEBUG"/>
+		<appender-ref ref="INFO"/>
+		<appender-ref ref="WARN"/>
+		<appender-ref ref="ERROR"/>
+		<appender-ref ref="FATAL"/>
+	</root>
+</log4j:configuration>

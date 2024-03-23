@@ -1,0 +1,324 @@
+<?xml version="1.0"?>
+<project name="JCS" default="archive" basedir=".">
+        <taskdef name="kcc" classname="com.koalog.kover.ant.KCCTask"/>
+        <property file="../build.properties"/>
+        <property file="build.properties"/>
+        <property file="VERSION"/>
+        <property name="clover.initstring" location="f:/yan/src/koalog/jcs/tmp/clover.db"/>
+        <property name="clover.tmpdir" value="f:/yan/src/koalog/jcs/tmp"/>
+        <property name="clover.preserve" value="true"/>
+        <!--  <property name="clover.flushpolicy" value="interval"/> -->
+        <!--  <property name="clover.flushpolicy.interval" value="1"/> -->
+        <property name="clover.includes" value="**/*.java"/>
+        <property name="clover.excludes" value="**/examples/*, **/TestSuite.java, **/*Test.java, **/Run*.java"/>
+
+        <patternset id="public.classes">
+               <include name="com/**/*.class"/>
+               <exclude name="**/examples/*"/>
+               <exclude name="**/TestSuite.class"/>
+               <exclude name="**/*Test.class"/>
+               <exclude name="**/Run*.class"/>
+        </patternset>
+
+        <patternset id="test.classes">
+               <include name="**/examples/*"/>
+               <include name="**/TestSuite.class"/>
+               <include name="**/*Test.class"/>
+               <include name="**/Run*.class"/>
+        </patternset>
+
+        <path id="external.path">
+              <pathelement location="${junit.root}/junit.jar"/>
+              <pathelement location="${log4j.root}/dist/lib/log4j.jar"/>
+	      <pathelement location="${util.root}/lib/util.jar"/>
+        </path>
+
+        <path id="test.path">
+	      <pathelement location="lib/jcs.jar"/>
+              <pathelement location="lib/jcs-test.jar"/>
+              <pathelement location="tests"/>
+              <path refid="clover.classpath"/>
+              <path refid="external.path"/>
+        </path>
+  
+        <path id="clover.classpath">  
+              <pathelement path="c:/clover-1.0/lib/clover.jar"/>  
+              <pathelement path="c:/clover-1.0/lib/velocity.jar"/>  
+        </path>
+
+        <target name="clean" description="cleans">
+                <delete>
+                        <fileset dir="tmp" includes="**/*"/>
+                </delete>
+                <delete>
+                        <fileset dir="classes" includes="**/*.class"/>
+                </delete>
+                <delete>
+                        <fileset dir="lib"/>
+                </delete>
+                <delete>
+                        <fileset dir="doc/javadoc" includes="**/*.*"/>
+                </delete>
+        </target>
+
+        <target name="compile" description="compiles the engine and the tests">
+                <javac srcdir="java" 
+                       destdir="classes" 
+                       classpathref="external.path" 
+                       debug="${javac.debug}" 
+                       debuglevel="${javac.debuglevel}" 
+                       optimize="${javac.optimize}"/>
+        </target>
+
+        <target name="manifest" description="creates the manifest">
+                <filter filtersfile="VERSION"/>
+                <copy file="../installer/doc/manifest.mf" tofile="manifest.mf" filtering="true"/>
+        </target>
+
+        <target name="archive" depends="compile, manifest" description="jars the classes">
+                <jar jarfile="lib/jcs.jar" manifest="manifest.mf">
+                       <fileset dir="classes">
+                                <patternset refid="public.classes"/>
+		       </fileset>
+                       <fileset dir="resources"/>
+                </jar>
+                <jar jarfile="lib/jcs-test.jar" manifest="manifest.mf">
+                       <fileset dir="classes">
+                                <patternset refid="test.classes"/>
+		       </fileset>
+                </jar>
+        </target>
+
+        <target name="obfuscate" depends="archive" description="obfuscates" if="jcs.obfuscates">
+               <java classname="ZKM" fork="yes" dir="logs">
+                       <classpath>
+                              <pathelement location="${zkm.root}/ZKM.jar"/>
+                       </classpath>
+                       <arg value="../zkm.txt"/>
+               </java>
+        </target>
+
+        <target name="release" depends="obfuscate, javadoc, tutorial" description="does a release">
+                <copy file="lib/jcs.jar" todir="${jcs.root}/lib"/>
+                <copy file="${util.root}/lib/util.jar" todir="${jcs.root}/lib"/>
+                <copy file="${log4j.root}/dist/lib/log4j.jar" todir="${jcs.root}/lib"/>
+                <copy file="${log4j.root}/LICENSE.APL" todir="${jcs.root}/lib"/>
+                <copy todir="${jcs.root}/doc/javadoc">
+                        <fileset dir="doc/javadoc" includes="**/*"/>
+                </copy>
+                <copy file="doc/technical/tutorial.pdf" todir="${jcs.root}/doc"/>
+        </target>
+
+        <target name="setup" depends="release, javadocjar" description="creates a setup package">
+                <copy file="setup.properties" tofile="tmp/setup/setup.properties"/>
+                <copy todir="tmp/setup/lib">
+                        <fileset dir="${jcs.root}/lib"/>
+                </copy>
+                <copy todir="tmp/setup/samples">
+                        <fileset dir="www/samples" includes="*.java"/>
+                </copy>
+                <copy file="${jcs.root}/doc/tutorial.pdf" todir="tmp/setup/doc"/>
+                <copy file="doc/javadoc.jar" todir="tmp/setup/doc"/>
+                <copy file="doc/legal/LICENSE.txt" tofile="tmp/setup/LICENSE.txt"/>
+                <copy file="RELEASE_NOTES.txt" tofile="tmp/setup/RELEASE_NOTES.txt"/>
+                <jar jarfile="jcs-setup.jar" manifest="../installer/resources/manifest.mf">
+                       <fileset dir="../installer/classes"/>
+                       <fileset dir="../installer/resources" excludes="manifest.mf"/>
+                       <fileset dir="tmp/setup"/>
+                </jar>
+	</target>
+
+	<target name="test_setup" description="tests the setup">
+                <exec executable="java">
+                       <arg value="-jar"/>
+                       <arg value="jcs-setup.jar"/>
+                       <arg value="tests/INSTALL_INPUT.properties"/>
+                </exec>
+                <mkdir dir="tmp/doc/javadoc"/>
+                <exec executable="jar" dir="tmp/doc/javadoc">
+                       <arg value="-xf"/>
+                       <arg value="../javadoc.jar"/>
+                </exec>
+	        <java classname="com.koalog.jcs.RunAll" fork="yes">
+		       <classpath>
+                              <pathelement location="lib/jcs-test.jar"/>
+                              <pathelement location="tests"/>
+                              <pathelement location="${junit.root}/junit.jar"/>
+                              <pathelement location="tmp/lib/jcs.jar"/>
+                              <pathelement location="tmp/lib/log4j.jar"/>
+                              <pathelement location="tmp/lib/util.jar"/>
+		       </classpath>  
+		       <arg value="tests/log4j.test_all.properties"/>
+		</java>
+	</target>
+
+	<target name="test_all" depends="archive" description="runs all the tests">
+	        <java classname="com.koalog.jcs.RunAll" fork="yes">
+		       <classpath>
+                              <path refid="test.path"/>
+		       </classpath>  
+		       <arg value="tests/log4j.test_all.properties"/>
+		</java>
+	</target>
+
+	<target name="test" depends="archive" description="runs a test">
+	        <java classname="${jcs.suite.class}" fork="yes">
+                       <jvmarg value="-Xms350m"/>
+                       <jvmarg value="-Xmx350m"/>                          
+		       <classpath>
+                              <path refid="test.path"/>
+		       </classpath>  
+		       <arg value="${jcs.test.class}"/>
+		       <arg value="${jcs.test.method}"/>
+		       <arg value="tests/log4j.test.properties"/>
+		</java>
+	</target>
+
+        <target name="coverage" depends="archive" description="computes the coverage"> 
+            <mkdir dir="${basedir}/tmp/coverage"/>
+            <kcc classname="com.koalog.jcs.RunAll">
+               <option key="-s" value="${basedir}/tmp/coverage/session.ccs"/>
+               <option key="-i" value="${basedir}/lib/jcs.jar"/>
+               <classpath>
+                  <path refid="test.path"/>
+               </classpath>
+               <arg value="${basedir}/tests/log4j.test_all.properties"/>               
+            </kcc>
+            <move file="kover.log" tofile="logs/kover.log"/>
+        </target>
+
+        <target name="clover.swing">  
+                <java classname="com.cortexeb.tools.clover.reporters.jfc.Viewer" fork="yes">   
+                      <arg line="${clover.initstring}"/>   
+                      <classpath refid="clover.classpath"/>  
+                </java>
+        </target>
+
+        <target name="clover.html">  
+                <java classname="com.cortexeb.tools.clover.reporters.html.HtmlReporter" fork="true"> 
+                      <arg line="--outputdir f:/yan/src/koalog/jcs/tmp/clover_html --initstring ${clover.initstring} --title 'JCS'"/>   
+                      <classpath refid="clover.classpath"/>  
+                </java>
+        </target>
+
+	<target name="coverage_reports" description="generates the coverage reports">
+	        <kcc>
+                       <option key="-s" value="${basedir}/tmp/coverage/session.ccs"/>
+                       <option key="-x" value="com/koalog/kover/xsl/html.xsl"/>
+                       <option key="-g" value="${basedir}/tmp/coverage/jcs-coverage.html"/>
+                       <option key="-o"/>
+		</kcc>
+                <kcc>
+                       <option key="-s" value="${basedir}/tmp/coverage/session.ccs"/>
+                       <option key="-x" value="com/koalog/kover/xsl/xml.xsl"/>
+                       <option key="-g" value="${basedir}/tmp/coverage/jcs-coverage.xml"/>
+                       <option key="-o"/>
+		</kcc>
+                <kcc>
+                       <option key="-s" value="${basedir}/tmp/coverage/session.ccs"/>
+                       <option key="-x" value="com/koalog/kover/xsl/text.xsl"/>
+                       <option key="-g" value="${basedir}/tmp/coverage/jcs-coverage.txt"/>
+                       <option key="-o"/>
+		</kcc>
+                <kcc>
+                       <option key="-s" value="${basedir}/tmp/coverage/session.ccs"/>
+                       <option key="-x" value="com/koalog/kover/xsl/csv.xsl"/>
+                       <option key="-g" value="${basedir}/tmp/coverage/jcs-coverage.csv"/>
+                       <option key="-o"/>
+		</kcc>
+                <move file="kover.log" tofile="logs/kover.log"/>
+	</target>
+
+        <target name="license" description="creates the license">
+                <filter filtersfile="VERSION"/>
+                <copy file="../doc/legal/license/LICENSE.txt" tofile="doc/legal/LICENSE.txt" filtering="true"/>
+        </target>
+
+        <target name="tutorial" description="creates the tutorial">
+               <exec executable="latex.exe" dir="doc/technical">
+                  <arg value="tutorial.tex"/>
+               </exec>
+               <exec executable="latex.exe" dir="doc/technical">
+                  <arg value="tutorial.tex"/>
+               </exec>
+               <exec executable="latex.exe" dir="doc/technical">
+                  <arg value="tutorial.tex"/>
+               </exec>
+               <exec executable="dvipdfm.exe" dir="doc/technical">
+                  <arg value="tutorial.dvi"/>
+               </exec>
+        </target>
+
+        <target name="overview" description="creates the overview">
+               <exec executable="latex.exe" dir="doc/marketing">
+                  <arg value="overview.tex"/>
+               </exec>
+               <exec executable="latex.exe" dir="doc/marketing">
+                  <arg value="overview.tex"/>
+               </exec>
+               <exec executable="latex.exe" dir="doc/marketing">
+                  <arg value="overview.tex"/>
+               </exec>
+               <exec executable="dvipdfm.exe" dir="doc/marketing">
+                  <arg value="overview.dvi"/>
+               </exec>
+        </target>
+
+        <target name="www" 
+                depends="license, javadocjar, coverage_reports, tutorial, overview" 
+                description="creates the documents used by www">
+                <copy file="doc/legal/LICENSE.txt" tofile="www/doc/jcs-license.txt"/>
+                <copy file="doc/technical/tutorial.pdf" tofile="www/doc/jcs-tutorial.pdf"/>
+                <copy file="doc/marketing/overview.pdf" tofile="www/doc/jcs-overview.pdf"/>
+                <copy file="tmp/coverage/jcs-coverage.csv" todir="www/samples"/>
+                <copy file="tmp/coverage/jcs-coverage.xml" todir="www/samples"/>
+                <copy file="tmp/coverage/jcs-coverage.html" todir="www/samples"/>
+                <copy file="tmp/coverage/jcs-coverage.txt" todir="www/samples"/>
+                <copy file="doc/javadoc.jar" tofile="www/doc/jcs-javadoc.jar"/>
+        </target>
+
+        <target name="javadocjar" depends="javadoc" description="creates the javadoc archive">
+                <jar jarfile="doc/javadoc.jar">
+                       <fileset dir="doc/javadoc"/>
+                </jar>                
+        </target>
+
+        <target name="save" description="saves">
+                <zip zipfile="old/jcs.${VERSION}.zip" whenempty="fail">
+                      <zipfileset dir="java" prefix="java"/>
+                      <zipfileset dir="doc" prefix="doc"/>
+                      <zipfileset dir="resources" prefix="resources"/>
+                      <zipfileset dir="tests" prefix="tests"/>
+               </zip>
+        </target>
+
+        <target name="javadoc" description="creates the javadoc">
+                <copy todir="tmp/javadocjava" >
+                   <fileset dir="java" >
+                         <exclude name="**/*Test.java"/>
+                         <exclude name="**/TestSuite.java"/>
+                         <exclude name="**/Run*.java"/>
+                         <exclude name="**/examples/*.*"/>
+                   </fileset>
+                </copy>
+                <javadoc sourcepath="tmp/javadocjava"
+                         packagenames="com.koalog.jcs.*"
+                         classpathref="external.path"
+                         overview="java/com/koalog/jcs/overview.html"
+                         destdir="doc/javadoc"
+                         author="false"
+                         use="true" 
+                         footer="Copyright 2002 Koalog"
+                         windowtitle="${NAME} ${VERSION} API Documentation">
+			 <link href="file:///${util.root}/doc/javadoc"
+			       offline="true"
+			       packagelistLoc="doc/packages/util"/>
+                         <link href="${jdk.javadoc}"
+                               offline="true"
+                               packagelistLoc="doc/packages/jdk"/>
+                         <link href="${junit.javadoc}"
+                               offline="true"
+                               packagelistLoc="doc/packages/junit"/>
+                </javadoc>
+        </target>
+</project>
